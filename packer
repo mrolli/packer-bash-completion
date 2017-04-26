@@ -8,11 +8,11 @@
 # - support for basic options (i.e.. -debug)
 # - support for complex options (i.e. -parallel=[true|false]
 #
-# The scirpt has been successfully tested with packer-0.6.0 and the
+# The scirpt has been successfully tested with packer-1.0.0 and the
 # following OS:
 #
-# - OS X 10.9
-# - CentOS-6.5
+# - OS X 10.9 - macOS 10.12 (Sierra)
+# - CentOS-6
 # - Ubuntu 12.04 Server
 #
 # The script technically is heavily inspired by the git-completion.bash
@@ -20,7 +20,7 @@
 # contributors for the inspiration and especially to the bash-completion
 # team in general.
 #
-# Copyright (c) 2014 IT Services Department, University of Bern
+# Copyright (c) 2017 IT Services Department, University of Bern
 #
 # This script is licensed under the MIT License (MIT)
 # For licsense details see the LICENSE file included in the repository
@@ -71,6 +71,10 @@ __packer_build ()
         virtualbox-iso virtualbox-ovf vmware-iso vmware-vmx"
 
     case "$cur" in
+        -color=*)
+            __packercomp "false true" "${cur##-color=}"
+            return
+            ;;
         -parallel=*)
             __packercomp "false true" "${cur##-parallel=}"
             return
@@ -83,8 +87,12 @@ __packer_build ()
             __packercomp "$builders" "${cur##-only=}"
             return
             ;;
+        -on-error=*)
+            __packercomp "cleanup abort ask" "${cur##-on-error=}"
+            return
+            ;;
         -*)
-            __packercomp "-debug -force -machine-readable -except= -only= -parallel= -var -var-file"
+            __packercomp "-color= -debug -force -machine-readable -except= -only= -on-error= -parallel= -var -var-file="
             return
             ;;
         *)
@@ -96,6 +104,18 @@ __packer_build ()
 # Generates completion for the fix command.
 __packer_fix ()
 {
+    case "$cur" in
+        -validate=*)
+            __packercomp "true false" "$#{cur##-validate=}"
+            return
+            ;;
+        -*)
+            __packercomp "-validate="
+            return
+            ;;
+        *)
+    esac
+
     __packercomp_template_file
 }
 
@@ -113,10 +133,32 @@ __packer_inspect ()
     __packercomp_template_file
 }
 
+# Generates completion for the push command.
+__packer_push ()
+{
+    case "$cur" in
+        -*)
+            __packercomp "-name= -token= -var -var-file="
+            return
+            ;;
+        *)
+    esac
+
+    __packercomp_template_file
+}
+
 # Generates completion for the validate command.
 __packer_validate ()
 {
-    __packercomp_template_file
+     case "$cur" in
+        -*)
+            __packercomp "-syntax-only -execpt= -only= -var -var-file="
+            return
+            ;;
+        *)
+    esac
+
+   __packercomp_template_file
 }
 
 # Main function for packer completion.
@@ -147,10 +189,10 @@ _packer_completion ()
     if [ -z $command ]; then
         case "$cur" in
             '-'*)
-                __packercomp "-machine-readable --help --version"
+                __packercomp "-machine-readable --help"
                 ;;
             *)
-                __packercomp "build fix inspect validate"
+                __packercomp "build fix inspect push validate version"
                 ;;
         esac
         return
