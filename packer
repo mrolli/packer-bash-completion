@@ -87,12 +87,16 @@ __packer_build ()
             __packercomp "$builders" "${cur##-only=}"
             return
             ;;
+        -parallel-builds=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
         -parallel=*)
             __packercomp "false true" "${cur##-parallel=}"
             return
             ;;
         -*)
-            __packercomp "-color= -debug -except= -force -machine-readable -on-error= -only= -parallel= -var -var-file="
+            __packercomp "-color= -debug -except= -force -machine-readable -on-error= -only= -parallel-builds= -parallel= -timestamp-ui -var -var-file="
             return
             ;;
         *)
