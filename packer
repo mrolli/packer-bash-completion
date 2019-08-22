@@ -164,7 +164,7 @@ __packer_validate ()
             return
             ;;
         -*)
-            __packercomp "-execpt= -only= -syntax-only -var -var-file="
+            __packercomp "-except= -only= -syntax-only -var -var-file="
             return
             ;;
         *)
