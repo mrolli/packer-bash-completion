@@ -75,24 +75,24 @@ __packer_build ()
             __packercomp "false true" "${cur##-color=}"
             return
             ;;
-        -parallel=*)
-            __packercomp "false true" "${cur##-parallel=}"
-            return
-            ;;
         -except=*)
             __packercomp "$builders" "${cur##-except=}"
-            return
-            ;;
-        -only=*)
-            __packercomp "$builders" "${cur##-only=}"
             return
             ;;
         -on-error=*)
             __packercomp "cleanup abort ask" "${cur##-on-error=}"
             return
             ;;
+        -only=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
+        -parallel=*)
+            __packercomp "false true" "${cur##-parallel=}"
+            return
+            ;;
         -*)
-            __packercomp "-color= -debug -force -machine-readable -except= -only= -on-error= -parallel= -var -var-file="
+            __packercomp "-color= -debug -except= -force -machine-readable -on-error= -only= -parallel= -var -var-file="
             return
             ;;
         *)
@@ -152,7 +152,7 @@ __packer_validate ()
 {
      case "$cur" in
         -*)
-            __packercomp "-syntax-only -execpt= -only= -var -var-file="
+            __packercomp "-execpt= -only= -syntax-only -var -var-file="
             return
             ;;
         *)
