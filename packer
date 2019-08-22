@@ -137,20 +137,6 @@ __packer_inspect ()
     __packercomp_template_file
 }
 
-# Generates completion for the push command.
-__packer_push ()
-{
-    case "$cur" in
-        -*)
-            __packercomp "-name= -token= -var -var-file="
-            return
-            ;;
-        *)
-    esac
-
-    __packercomp_template_file
-}
-
 # Generates completion for the validate command.
 __packer_validate ()
 {
@@ -196,7 +182,7 @@ _packer_completion ()
                 __packercomp "-machine-readable --help"
                 ;;
             *)
-                __packercomp "build fix inspect push validate version"
+                __packercomp "build fix inspect validate version"
                 ;;
         esac
         return
