@@ -155,6 +155,14 @@ __packer_inspect ()
 __packer_validate ()
 {
      case "$cur" in
+        -except=*)
+            __packercomp "$builders" "${cur##-except=}"
+            return
+            ;;
+        -only=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
         -*)
             __packercomp "-execpt= -only= -syntax-only -var -var-file="
             return
