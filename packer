@@ -105,6 +105,20 @@ __packer_build ()
     __packercomp_template_file
 }
 
+# Generates completion for the console command.
+__packer_console ()
+{
+    case "$cur" in
+        -*)
+            __packercomp "-var -var-file="
+            return
+            ;;
+        *)
+    esac
+
+    __packercomp_template_file
+}
+
 # Generates completion for the fix command.
 __packer_fix ()
 {
@@ -182,7 +196,7 @@ _packer_completion ()
                 __packercomp "-machine-readable --help"
                 ;;
             *)
-                __packercomp "build fix inspect validate version"
+                __packercomp "build console fix inspect validate version"
                 ;;
         esac
         return
