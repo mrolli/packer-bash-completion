@@ -75,24 +75,42 @@ __packer_build ()
             __packercomp "false true" "${cur##-color=}"
             return
             ;;
-        -parallel=*)
-            __packercomp "false true" "${cur##-parallel=}"
-            return
-            ;;
         -except=*)
             __packercomp "$builders" "${cur##-except=}"
-            return
-            ;;
-        -only=*)
-            __packercomp "$builders" "${cur##-only=}"
             return
             ;;
         -on-error=*)
             __packercomp "cleanup abort ask" "${cur##-on-error=}"
             return
             ;;
+        -only=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
+        -parallel-builds=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
+        -parallel=*)
+            __packercomp "false true" "${cur##-parallel=}"
+            return
+            ;;
         -*)
-            __packercomp "-color= -debug -force -machine-readable -except= -only= -on-error= -parallel= -var -var-file="
+            __packercomp "-color= -debug -except= -force -machine-readable -on-error= -only= -parallel-builds= -parallel= -timestamp-ui -var -var-file="
+            return
+            ;;
+        *)
+    esac
+
+    __packercomp_template_file
+}
+
+# Generates completion for the console command.
+__packer_console ()
+{
+    case "$cur" in
+        -*)
+            __packercomp "-var -var-file="
             return
             ;;
         *)
@@ -133,26 +151,20 @@ __packer_inspect ()
     __packercomp_template_file
 }
 
-# Generates completion for the push command.
-__packer_push ()
-{
-    case "$cur" in
-        -*)
-            __packercomp "-name= -token= -var -var-file="
-            return
-            ;;
-        *)
-    esac
-
-    __packercomp_template_file
-}
-
 # Generates completion for the validate command.
 __packer_validate ()
 {
      case "$cur" in
+        -except=*)
+            __packercomp "$builders" "${cur##-except=}"
+            return
+            ;;
+        -only=*)
+            __packercomp "$builders" "${cur##-only=}"
+            return
+            ;;
         -*)
-            __packercomp "-syntax-only -execpt= -only= -var -var-file="
+            __packercomp "-except= -only= -syntax-only -var -var-file="
             return
             ;;
         *)
@@ -192,7 +204,7 @@ _packer_completion ()
                 __packercomp "-machine-readable --help"
                 ;;
             *)
-                __packercomp "build fix inspect push validate version"
+                __packercomp "build console fix inspect validate version"
                 ;;
         esac
         return
