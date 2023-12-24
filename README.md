@@ -1,5 +1,10 @@
 # Packer Bash Completion
 
+**CAVE**: This completion is obsolete. Hashicorp tools bring their own shell
+completion although it's opt-in by default. Consult the packer documentation on
+[how to setup shell
+completion](https://developer.hashicorp.com/packer/docs/commands#autocompletion).
+
 ## Overview
 
 The script provides bash completion for [packer](http://www.packer.io)
